@@ -16,7 +16,7 @@ module.exports = async function handler(req, res) {
     await ensureDatabaseReady();
 
     await db.query(
-      "INSERT INTO users (username, email, dob, role, password) VALUES (?, ?, ?, ?, ?)",
+      "INSERT INTO users (username, email, dob, role, password) VALUES ($1, $2, $3, $4, $5)",
       [username, email, dob, role || "rescue", password]
     );
 
@@ -24,7 +24,7 @@ module.exports = async function handler(req, res) {
   } catch (error) {
     console.error("Failed to register user:", error);
 
-    if (error.code === "ER_DUP_ENTRY") {
+    if (error.code === "23505") {
       return res.status(409).json({ message: "Email already registered" });
     }
 

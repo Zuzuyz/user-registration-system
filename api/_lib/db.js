@@ -1,104 +1,73 @@
-const mysql = require("mysql2/promise");
+const { Pool } = require("pg");
 
+const connectionString = process.env.DATABASE_URL;
 const databaseName =
-  process.env.DB_NAME ||
-  process.env.MYSQLDATABASE ||
-  process.env.MYSQL_DATABASE ||
-  "shubham_shreyasi_project";
-const baseConfig = {
-  host: process.env.DB_HOST || process.env.MYSQLHOST || "127.0.0.1",
-  port: Number(process.env.DB_PORT || process.env.MYSQLPORT || 3306),
-  user: process.env.DB_USER || process.env.MYSQLUSER || "root",
-  password: process.env.DB_PASSWORD || process.env.MYSQLPASSWORD || ""
-};
+  process.env.PGDATABASE ||
+  process.env.POSTGRES_DB ||
+  "user_registration_system";
 
-const isLocalDatabaseHost = new Set(["127.0.0.1", "localhost"]).has(baseConfig.host);
-const shouldCreateDatabase = process.env.AUTO_CREATE_DATABASE === "true" || isLocalDatabaseHost;
+const poolConfig = connectionString
+  ? {
+      connectionString,
+      ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false
+    }
+  : {
+      host: process.env.PGHOST || process.env.DB_HOST || "127.0.0.1",
+      port: Number(process.env.PGPORT || process.env.DB_PORT || 5432),
+      user: process.env.PGUSER || process.env.DB_USER || "postgres",
+      password: process.env.PGPASSWORD || process.env.DB_PASSWORD || "",
+      database: databaseName,
+      ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false
+    };
 
-const pool = mysql.createPool({
-  ...baseConfig,
-  database: databaseName,
-  waitForConnections: true,
-  connectionLimit: 10
-});
+const pool = new Pool(poolConfig);
 
 let initializationPromise;
 
 async function initializeDatabase() {
-  const connection = await mysql.createConnection(
-    shouldCreateDatabase ? baseConfig : { ...baseConfig, database: databaseName }
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY,
+      username VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL UNIQUE,
+      dob DATE NOT NULL,
+      role VARCHAR(50) NOT NULL DEFAULT 'rescue',
+      password VARCHAR(255) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  await pool.query(
+    `
+      INSERT INTO users (username, email, dob, role, password)
+      VALUES
+        ($1, $2, $3, $4, $5),
+        ($6, $7, $8, $9, $10),
+        ($11, $12, $13, $14, $15)
+      ON CONFLICT (email) DO UPDATE SET
+        username = EXCLUDED.username,
+        dob = EXCLUDED.dob,
+        role = EXCLUDED.role,
+        password = EXCLUDED.password
+    `,
+    [
+      "Shubham",
+      "shubham@gmail.com",
+      "2003-11-21",
+      "admin",
+      "123456",
+      "Shreyasi",
+      "shreyasi@gmail.com",
+      "2004-02-02",
+      "ngo",
+      "123456",
+      "Aarav Nair",
+      "aarav.nair@rescuenexus.in",
+      "1998-06-14",
+      "rescue",
+      "123456"
+    ]
   );
-
-  try {
-    if (shouldCreateDatabase) {
-      await connection.query(`CREATE DATABASE IF NOT EXISTS \`${databaseName}\``);
-      await connection.query(`USE \`${databaseName}\``);
-    }
-
-    await connection.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        username VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL UNIQUE,
-        dob DATE NOT NULL,
-        role VARCHAR(50) NOT NULL DEFAULT 'rescue',
-        password VARCHAR(255) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
-    `);
-
-    const [columns] = await connection.query(
-      `
-        SELECT COLUMN_NAME
-        FROM INFORMATION_SCHEMA.COLUMNS
-        WHERE TABLE_SCHEMA = ?
-          AND TABLE_NAME = 'users'
-          AND COLUMN_NAME = 'role'
-      `,
-      [databaseName]
-    );
-
-    if (!columns.length) {
-      await connection.query(`
-        ALTER TABLE users
-        ADD COLUMN role VARCHAR(50) NOT NULL DEFAULT 'rescue'
-      `);
-    }
-
-    await connection.query(
-      `
-        INSERT INTO users (username, email, dob, role, password)
-        VALUES
-          (?, ?, ?, ?, ?),
-          (?, ?, ?, ?, ?),
-          (?, ?, ?, ?, ?)
-        ON DUPLICATE KEY UPDATE
-          username = VALUES(username),
-          dob = VALUES(dob),
-          role = VALUES(role),
-          password = VALUES(password)
-      `,
-      [
-        "Shubham",
-        "shubham@gmail.com",
-        "2003-11-21",
-        "admin",
-        "123456",
-        "Shreyasi",
-        "shreyasi@gmail.com",
-        "2004-02-02",
-        "ngo",
-        "123456",
-        "Aarav Nair",
-        "aarav.nair@rescuenexus.in",
-        "1998-06-14",
-        "rescue",
-        "123456"
-      ]
-    );
-  } finally {
-    await connection.end();
-  }
 }
 
 async function ensureDatabaseReady() {

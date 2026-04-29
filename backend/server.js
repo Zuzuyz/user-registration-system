@@ -17,7 +17,7 @@ app.get("/api/health", (req, res) => {
 
 app.get("/api/users", async (req, res) => {
     try {
-        const [users] = await db.query(
+        const { rows: users } = await db.query(
             "SELECT id, username, email FROM users ORDER BY id DESC"
         );
 
@@ -37,7 +37,7 @@ app.post("/api/register", async (req, res) => {
 
     try {
         await db.query(
-            "INSERT INTO users (username, email, dob, role, password) VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO users (username, email, dob, role, password) VALUES ($1, $2, $3, $4, $5)",
             [username, email, dob, role || "rescue", password]
         );
 
@@ -45,7 +45,7 @@ app.post("/api/register", async (req, res) => {
     } catch (error) {
         console.error("Failed to register user:", error);
 
-        if (error.code === "ER_DUP_ENTRY") {
+        if (error.code === "23505") {
             return res.status(409).json({ message: "Email already registered" });
         }
 
@@ -61,8 +61,8 @@ app.post("/api/login", async (req, res) => {
     }
 
     try {
-        const [rows] = await db.query(
-            "SELECT id, username, email, role FROM users WHERE email = ? AND password = ? LIMIT 1",
+        const { rows } = await db.query(
+            "SELECT id, username, email, role FROM users WHERE email = $1 AND password = $2 LIMIT 1",
             [email, password]
         );
 

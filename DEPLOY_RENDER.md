@@ -13,37 +13,25 @@ Render can read the basic app setup from `render.yaml`, but if it asks you manua
 - Build Command: `npm run install:backend`
 - Start Command: `npm start`
 
-## 2. Create a MySQL database
+## 2. Create a Postgres database
 
 Render does not create this app's database automatically from `render.yaml`.
 
-Use Render's MySQL guide:
+Create a Render Postgres service first or in parallel, then copy its connection string into the web service environment variables:
 
-- https://render.com/docs/deploy-mysql
-
-Create the MySQL service first or in parallel, then copy these values into the web service environment variables:
-
-- `DB_HOST`
-- `DB_PORT`
-- `DB_USER`
-- `DB_PASSWORD`
-- `DB_NAME`
+- `DATABASE_URL`
 
 ## 3. Set environment variables in the web service
 
 In the Render web service dashboard, open `Environment` and add:
 
-- `DB_HOST`
-- `DB_PORT`
-- `DB_USER`
-- `DB_PASSWORD`
-- `DB_NAME`
+- `DATABASE_URL`
 
 Recommended:
 
-- `DB_PORT=3306`
+- `NODE_ENV=production`
 
-Do not set `AUTO_CREATE_DATABASE` unless your MySQL user has permission to create databases.
+You can use Render's internal Postgres connection string for `DATABASE_URL`.
 
 ## 4. Deploy
 
@@ -59,4 +47,4 @@ After the variables are saved, redeploy the web service.
 
 - The app serves both frontend and API from the same Express server.
 - The backend listens on `process.env.PORT`, which Render provides automatically.
-- The database bootstrap is deployment-safe: it avoids `CREATE DATABASE` on hosted MySQL unless explicitly enabled.
+- The app auto-creates the `users` table and seeds the demo accounts on startup.

@@ -15,8 +15,8 @@ module.exports = async function handler(req, res) {
   try {
     await ensureDatabaseReady();
 
-    const [rows] = await db.query(
-      "SELECT id, username, email, role FROM users WHERE email = ? AND password = ? LIMIT 1",
+    const { rows } = await db.query(
+      "SELECT id, username, email, role FROM users WHERE email = $1 AND password = $2 LIMIT 1",
       [email, password]
     );
 

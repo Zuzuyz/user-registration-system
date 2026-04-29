@@ -9,7 +9,7 @@ module.exports = async function handler(req, res) {
   try {
     await ensureDatabaseReady();
 
-    const [users] = await db.query(
+    const { rows: users } = await db.query(
       "SELECT id, username, email FROM users ORDER BY id DESC"
     );
 
