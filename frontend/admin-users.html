@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rescue Nexus Admin Users</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="admin-users">
+<div class="dashboard-shell">
+  <aside class="ops-sidebar">
+    <div class="sidebar-brand"><span class="sidebar-logo">◉</span><div><strong>RescueLink</strong><small>Disaster Relief</small></div></div>
+    <p class="sidebar-label">Operations</p>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link" href="dashboard.html"><span>▣</span><span>Dashboard</span></a>
+      <a class="sidebar-link" href="task-board.html"><span>☰</span><span>Task Board</span></a>
+      <a class="sidebar-link" href="disaster-map.html"><span>⌖</span><span>Disaster Map</span></a>
+      <a class="sidebar-link" href="delivery-tracking.html"><span>▤</span><span>Delivery Tracking</span></a>
+      <a class="sidebar-link" href="analytics.html"><span>◫</span><span>Analytics</span></a>
+      <a class="sidebar-link notification-link" href="notifications.html"><span>◌</span><span>Notifications</span><i id="navNotificationCount">5</i></a>
+      <a class="sidebar-link active" href="admin-users.html"><span>⚙</span><span>Admin Users</span></a>
+      <a class="sidebar-link" href="profile.html"><span>◎</span><span>Profile & Settings</span></a>
+    </nav>
+  </aside>
+
+  <div class="dashboard-content">
+    <header class="topbar dashboard-topbar">
+      <div>
+        <p class="eyebrow">Admin Workspace</p>
+        <h1 class="dashboard-title">User management</h1>
+        <p id="pageSubtitle" class="dashboard-subtitle">Roles, access status, recent logins, and export-ready user records.</p>
+      </div>
+      <div class="topbar-actions">
+        <span id="currentUser" class="user-chip"></span>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode"><span class="theme-toggle-track"><span class="theme-icon">☀</span><span class="theme-label">Light</span></span></button>
+        <button id="logoutButton" class="button secondary button-small" type="button">Logout</button>
+      </div>
+    </header>
+
+    <div id="demoBanner" class="demo-banner"></div>
+
+    <main class="dashboard-main">
+      <section class="metric-grid viva-metrics">
+        <article class="metric-card metric-emphasis"><span>Active accounts</span><strong id="adminActiveCount">0</strong><small>Enabled and signed in recently</small></article>
+        <article class="metric-card"><span>Admins</span><strong id="adminRoleCount">0</strong><small>Oversight and approvals</small></article>
+        <article class="metric-card"><span>Suspended</span><strong id="adminSuspendedCount">0</strong><small>Temporarily blocked users</small></article>
+        <article class="metric-card"><span>Recent sessions</span><strong id="adminSessionCount">0</strong><small>Across this demo workspace</small></article>
+      </section>
+
+      <div class="command-layout">
+        <div class="command-column">
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">User Directory</p>
+                <h3>Change role, activate, suspend, and export</h3>
+              </div>
+              <div class="quick-actions-grid compact-actions">
+                <button class="button primary" type="button" data-action="export-csv" data-export="users">Export CSV</button>
+                <button class="button secondary" type="button" data-action="export-pdf" data-export="users">Print PDF</button>
+              </div>
+            </div>
+            <div class="filter-row">
+              <input id="adminUserSearch" type="search" placeholder="Search name, email, or region">
+              <select id="adminRoleFilter">
+                <option value="all">All roles</option>
+                <option value="admin">Admin</option>
+                <option value="ngo">NGO</option>
+                <option value="rescue">Rescue</option>
+              </select>
+              <select id="adminStatusFilter">
+                <option value="all">All statuses</option>
+                <option value="active">Active</option>
+                <option value="standby">Standby</option>
+                <option value="suspended">Suspended</option>
+              </select>
+            </div>
+            <div id="adminUserBoard" class="admin-user-board"></div>
+          </article>
+        </div>
+
+        <div class="command-column narrow-column">
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Escalation Matrix</p>
+                <h3>Alert routing for administrators</h3>
+              </div>
+            </div>
+            <div id="escalationBoard" class="matrix-board"></div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Recent Sessions</p>
+                <h3>Latest login and handover activity</h3>
+              </div>
+            </div>
+            <div id="sessionActivityList" class="timeline-list"></div>
+          </article>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+<script src="theme.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+  name="description"
+  content="Rescue Nexus dashboard for India-wide disaster response coordination and delivery tracking."
+>
+<title>Rescue Nexus Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="dashboard">
+<div class="dashboard-shell">
+  <aside class="ops-sidebar">
+    <div class="sidebar-brand">
+      <span class="sidebar-logo">◉</span>
+      <div>
+        <strong>RescueLink</strong>
+        <small>Disaster Relief</small>
+      </div>
+    </div>
+
+    <p class="sidebar-label">Operations</p>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-link active" href="dashboard.html">
+        <span>▣</span>
+        <span>Dashboard</span>
+      </a>
+      <a class="sidebar-link" href="task-board.html">
+        <span>☰</span>
+        <span>Task Board</span>
+      </a>
+      <a class="sidebar-link" href="disaster-map.html">
+        <span>⌖</span>
+        <span>Disaster Map</span>
+      </a>
+      <a class="sidebar-link" href="delivery-tracking.html">
+        <span>▤</span>
+        <span>Delivery Tracking</span>
+      </a>
+      <a class="sidebar-link" href="analytics.html">
+        <span>◫</span>
+        <span>Analytics</span>
+      </a>
+      <a class="sidebar-link notification-link" href="notifications.html">
+        <span>◌</span>
+        <span>Notifications</span>
+        <i id="navNotificationCount">5</i>
+      </a>
+      <a class="sidebar-link" href="admin-users.html">
+        <span>⚙</span>
+        <span>Admin Users</span>
+      </a>
+      <a class="sidebar-link" href="profile.html">
+        <span>◎</span>
+        <span>Profile & Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-brief panel-card">
+      <p class="card-label">Demo Mode</p>
+      <h3>Product walkthrough</h3>
+      <p>
+        Role-based dashboards, incident creation, task ownership, search, audit history, delivery visibility, and profile settings now work together from one shared command system.
+      </p>
+    </div>
+  </aside>
+
+  <div class="dashboard-content">
+    <header class="topbar dashboard-topbar">
+      <div>
+        <p class="eyebrow">National Response Console</p>
+        <h1 class="dashboard-title">Relief command center</h1>
+        <p id="pageSubtitle" class="dashboard-subtitle">Central overview of all rescue operations.</p>
+      </div>
+
+      <div class="topbar-actions">
+        <span id="currentUser" class="user-chip"></span>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">
+          <span class="theme-toggle-track">
+            <span class="theme-icon">☀</span>
+            <span class="theme-label">Light</span>
+          </span>
+        </button>
+        <button id="logoutButton" class="button secondary button-small" type="button">Logout</button>
+      </div>
+    </header>
+
+    <div id="demoBanner" class="demo-banner"></div>
+
+    <main class="dashboard-main">
+      <section id="overview" class="hero dashboard-hero">
+        <div class="hero-copy hero-copy-compact">
+          <p class="eyebrow">India Relief Network</p>
+          <h2 id="roleHeroTitle">Coordinating relief. Saving lives together.</h2>
+          <p id="roleHeroSubtitle" class="hero-text">
+            A live mission board for rescue teams, NGO coordinators, and admins handling response, resources, and deliveries across India.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button primary" href="task-board.html">Open Task Board</a>
+            <a class="button secondary" href="disaster-map.html">Open Live Map</a>
+          </div>
+
+          <div id="heroRoleStats" class="hero-stats"></div>
+        </div>
+
+        <aside class="hero-panel">
+          <div class="panel-card glow-card">
+            <p class="panel-kicker">Live Situation Snapshot</p>
+            <h2 id="pageHeadingRole">Mission readiness</h2>
+            <ul id="situationList" class="signal-list"></ul>
+          </div>
+        </aside>
+      </section>
+
+      <section class="metric-grid viva-metrics">
+        <article class="metric-card metric-emphasis">
+          <span id="heroOpenLabel">Open incidents</span>
+          <strong id="metricOpenIncidents">27</strong>
+          <small>Across visible regions</small>
+        </article>
+        <article class="metric-card">
+          <span>Deliveries in view</span>
+          <strong id="metricInTransit">38</strong>
+          <small>Claimed or in progress</small>
+        </article>
+        <article class="metric-card">
+          <span id="heroUrgentLabel">Urgent alerts</span>
+          <strong id="heroUrgentValue">5</strong>
+          <small>Role-filtered communications</small>
+        </article>
+        <article class="metric-card">
+          <span>Resource utilization</span>
+          <strong id="metricUtilization">91%</strong>
+          <small>Teams actively deployed</small>
+        </article>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel-card">
+          <div class="card-topline">
+            <div>
+              <p class="card-label">Weather Overlay</p>
+              <h3>District risk and field conditions</h3>
+            </div>
+            <span id="weatherRiskSummary" class="badge transit">Weather loading</span>
+          </div>
+          <div id="weatherBoard" class="weather-board"></div>
+        </article>
+
+        <article class="panel-card">
+          <div class="card-topline">
+            <div>
+              <p class="card-label">Quick Actions</p>
+              <h3>Assign, escalate, export, and close work</h3>
+            </div>
+          </div>
+          <div class="quick-actions-grid">
+            <button class="button primary" type="button" data-action="export-csv" data-export="incidents">Export Incidents CSV</button>
+            <button class="button secondary" type="button" data-action="export-csv" data-export="deliveries">Export Deliveries CSV</button>
+            <button class="button secondary" type="button" data-action="export-pdf" data-export="dashboard">Print Dashboard PDF</button>
+            <button class="button secondary" type="button" data-action="open-handover-focus">Jump to Handover</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="command-layout">
+        <div class="command-column">
+          <article id="taskBoard" class="panel-card task-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Task Board</p>
+                <h3>Mission execution queue</h3>
+              </div>
+              <span id="taskResultsCount" class="badge transit">Priority incidents</span>
+            </div>
+            <div id="taskBoardList" class="task-board"></div>
+          </article>
+
+          <article id="mapPanel" class="panel-card map-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Relief Tracking Map</p>
+                <h3>Priority corridors, shelters, blocked roads, and drop points</h3>
+              </div>
+              <span class="india-badge">Focused on India</span>
+            </div>
+
+            <div class="map-frame">
+              <svg viewBox="0 0 520 640" class="india-map" aria-label="India operations map">
+                <path class="india-shape" d="M286 42l52 48 3 49 45 42-5 52 26 34-13 36 20 50-8 72-44 42-15 47-49 33-46 4-39-31-12-39-31-20-14-54-39-31-28-71 18-41-27-43 27-36 57-18 15-41 44-6 18-39 45 1z"></path>
+
+                <g class="route completed">
+                  <path d="M171 204 C219 240, 248 267, 283 305"></path>
+                </g>
+                <g class="route active">
+                  <path d="M283 305 C315 337, 331 381, 350 446"></path>
+                </g>
+                <g class="route active">
+                  <path d="M244 182 C292 171, 332 167, 379 144"></path>
+                </g>
+                <g class="route completed">
+                  <path d="M150 298 C191 318, 236 352, 272 389"></path>
+                </g>
+
+                <g id="mapPins"></g>
+
+                <g class="truck-marker truck-one">
+                  <circle cx="315" cy="337" r="14"></circle>
+                  <text x="307" y="342">🚚</text>
+                </g>
+                <g class="truck-marker truck-two">
+                  <circle cx="301" cy="171" r="14"></circle>
+                  <text x="293" y="176">🚚</text>
+                </g>
+              </svg>
+
+              <div class="map-legend">
+                <span><i class="legend-dot active-dot"></i> Active route</span>
+                <span><i class="legend-dot done-dot"></i> Completed stretch</span>
+                <span><i class="legend-dot city-dot"></i> Hub and response pins</span>
+              </div>
+            </div>
+          </article>
+
+          <div class="lower-grid">
+            <article id="responders" class="panel-card">
+              <div class="card-topline">
+                <div>
+                  <p class="card-label">Registered Responders</p>
+                  <h3>Newest onboarded personnel</h3>
+                </div>
+              </div>
+              <div class="filter-row">
+                <input id="userSearch" type="search" placeholder="Search responder name or email">
+                <select id="userRegionFilter">
+                  <option value="all">All regions</option>
+                  <option value="National Control">National Control</option>
+                  <option value="East Relief Cluster">East Relief Cluster</option>
+                  <option value="South Field Unit">South Field Unit</option>
+                  <option value="North Terrain Desk">North Terrain Desk</option>
+                  <option value="West Logistics Route">West Logistics Route</option>
+                </select>
+              </div>
+              <ul id="userList" class="user-list"></ul>
+            </article>
+
+            <article id="analyticsPanel" class="panel-card analytics-card">
+              <div class="card-topline">
+                <div>
+                  <p class="card-label">Operational Readiness</p>
+                  <h3>Response readiness by network</h3>
+                </div>
+              </div>
+              <div id="capacityList" class="capacity-list">
+                <div>
+                  <span>Medical kits</span>
+                  <strong>82%</strong>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel-card">
+              <div class="card-topline">
+                <div>
+                  <p class="card-label">Shelter Management</p>
+                  <h3>Occupancy, supplies, and medical capacity</h3>
+                </div>
+              </div>
+              <div id="shelterBoard" class="shelter-board"></div>
+            </article>
+
+            <article class="panel-card">
+              <div class="card-topline">
+                <div>
+                  <p class="card-label">Volunteer Status</p>
+                  <h3>Check-ins and field availability</h3>
+                </div>
+              </div>
+              <div id="volunteerBoard" class="volunteer-board"></div>
+            </article>
+          </div>
+        </div>
+
+        <div class="command-column narrow-column">
+          <article id="trackingPanel" class="panel-card operations-feed">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Delivery Tracking</p>
+                <h3>Active missions and teams</h3>
+              </div>
+            </div>
+            <div id="missionFeed" class="feed-list"></div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Field Timeline</p>
+                <h3>Latest operational handoffs</h3>
+              </div>
+            </div>
+            <div id="timelineList" class="timeline-list"></div>
+          </article>
+
+          <article id="notificationPanel" class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Notifications</p>
+                <h3>Command alerts and approvals</h3>
+              </div>
+              <span id="notificationCounter" class="badge alert-badge">5 New</span>
+            </div>
+            <div id="notificationList" class="notification-list"></div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Map Signals</p>
+                <h3>Blocked roads, shelters, and supply points</h3>
+              </div>
+            </div>
+            <div id="mapSignals" class="signal-stack"></div>
+          </article>
+
+          <article id="handoverPanel" class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Shift Handover</p>
+                <h3>Notes for the next operator</h3>
+              </div>
+            </div>
+            <form id="handoverForm" class="stack-form compact-form">
+              <label>
+                <span>Handover note</span>
+                <input id="handoverInput" name="handoverNote" type="text" placeholder="Leave a note for the next shift" required>
+              </label>
+              <button class="button secondary wide" type="submit">Add handover note</button>
+            </form>
+            <div id="handoverList" class="timeline-list"></div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+<script src="theme.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

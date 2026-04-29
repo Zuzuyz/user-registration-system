@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rescue Nexus Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="analytics">
+<div class="dashboard-shell">
+  <aside class="ops-sidebar">
+    <div class="sidebar-brand"><span class="sidebar-logo">◉</span><div><strong>RescueLink</strong><small>Disaster Relief</small></div></div>
+    <p class="sidebar-label">Operations</p>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link" href="dashboard.html"><span>▣</span><span>Dashboard</span></a>
+      <a class="sidebar-link" href="task-board.html"><span>☰</span><span>Task Board</span></a>
+      <a class="sidebar-link" href="disaster-map.html"><span>⌖</span><span>Disaster Map</span></a>
+      <a class="sidebar-link" href="delivery-tracking.html"><span>▤</span><span>Delivery Tracking</span></a>
+      <a class="sidebar-link active" href="analytics.html"><span>◫</span><span>Analytics</span></a>
+      <a class="sidebar-link notification-link" href="notifications.html"><span>◌</span><span>Notifications</span><i id="navNotificationCount">5</i></a>
+      <a class="sidebar-link" href="admin-users.html"><span>⚙</span><span>Admin Users</span></a>
+      <a class="sidebar-link" href="profile.html"><span>◎</span><span>Profile & Settings</span></a>
+    </nav>
+  </aside>
+
+  <div class="dashboard-content">
+    <header class="topbar dashboard-topbar">
+      <div>
+        <p class="eyebrow">Performance Review</p>
+        <h1 class="dashboard-title">Analytics</h1>
+        <p id="pageSubtitle" class="dashboard-subtitle">Weekly task trends, status mix, and aid distribution insights.</p>
+      </div>
+      <div class="topbar-actions">
+        <span id="currentUser" class="user-chip"></span>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode"><span class="theme-toggle-track"><span class="theme-icon">☀</span><span class="theme-label">Light</span></span></button>
+        <button id="logoutButton" class="button secondary button-small" type="button">Logout</button>
+      </div>
+    </header>
+
+    <div id="demoBanner" class="demo-banner"></div>
+
+    <main class="dashboard-main">
+      <article class="panel-card">
+        <div class="card-topline">
+          <div>
+            <p class="card-label">Operations Summary</p>
+            <h3>Role-aware analytics snapshot</h3>
+          </div>
+        </div>
+        <p id="analyticsSummary" class="dashboard-subtitle">Loading operational analytics...</p>
+      </article>
+
+      <div class="analytics-grid-top">
+        <article class="panel-card chart-card">
+          <div class="chart-heading">
+            <span class="chart-accent"></span>
+            <h3>Weekly Task Trend</h3>
+          </div>
+
+          <svg viewBox="0 0 620 420" class="trend-chart" aria-label="Weekly task trend">
+            <g class="chart-grid">
+              <line x1="90" y1="60" x2="90" y2="340"></line>
+              <line x1="90" y1="340" x2="560" y2="340"></line>
+              <line x1="90" y1="270" x2="560" y2="270"></line>
+              <line x1="90" y1="200" x2="560" y2="200"></line>
+              <line x1="90" y1="130" x2="560" y2="130"></line>
+              <line x1="160" y1="60" x2="160" y2="340"></line>
+              <line x1="230" y1="60" x2="230" y2="340"></line>
+              <line x1="300" y1="60" x2="300" y2="340"></line>
+              <line x1="370" y1="60" x2="370" y2="340"></line>
+              <line x1="440" y1="60" x2="440" y2="340"></line>
+              <line x1="510" y1="60" x2="510" y2="340"></line>
+            </g>
+
+            <g class="chart-labels">
+              <text x="58" y="346">0</text>
+              <text x="48" y="276">7</text>
+              <text x="38" y="206">14</text>
+              <text x="38" y="136">21</text>
+              <text x="28" y="66">28</text>
+
+              <text x="74" y="375">Mon</text>
+              <text x="144" y="375">Tue</text>
+              <text x="214" y="375">Wed</text>
+              <text x="284" y="375">Thu</text>
+              <text x="356" y="375">Fri</text>
+              <text x="426" y="375">Sat</text>
+              <text x="497" y="375">Sun</text>
+            </g>
+
+            <path class="trend-area" d="M90 250 C120 190, 145 150, 160 165 C185 178, 210 220, 230 215 C255 210, 280 150, 300 132 C325 102, 350 48, 370 60 C395 70, 420 160, 440 185 C462 205, 486 215, 510 225 L510 340 L90 340 Z"></path>
+            <path class="trend-line trend-line-blue" d="M90 250 C120 190, 145 150, 160 165 C185 178, 210 220, 230 215 C255 210, 280 150, 300 132 C325 102, 350 48, 370 60 C395 70, 420 160, 440 185 C462 205, 486 215, 510 225"></path>
+            <path class="trend-line trend-line-green" d="M90 285 C115 240, 138 198, 160 200 C183 201, 208 245, 230 240 C255 236, 278 185, 300 175 C325 160, 348 135, 370 145 C394 155, 418 205, 440 215 C462 225, 486 235, 510 245"></path>
+          </svg>
+          <p id="trendCaption" class="helper-note">Trend explanation will adapt to role.</p>
+        </article>
+
+        <article class="panel-card chart-card">
+          <div class="chart-heading">
+            <span class="chart-accent"></span>
+            <h3>Task Status Breakdown</h3>
+          </div>
+
+          <div class="donut-panel">
+            <div class="donut-chart"></div>
+            <div class="donut-label donut-blue">Claimed 13%</div>
+            <div class="donut-label donut-yellow">In Progress 23%</div>
+            <div class="donut-label donut-gray">Pending 16%</div>
+            <div class="donut-label donut-green">Completed 30%</div>
+            <div class="donut-label donut-green-soft">Delivered 18%</div>
+          </div>
+        </article>
+      </div>
+
+      <div class="lower-grid">
+        <article class="panel-card chart-card chart-card-wide">
+          <div class="chart-heading">
+            <span class="chart-accent"></span>
+            <h3>Aid Type Distribution</h3>
+          </div>
+
+          <div class="bar-chart">
+            <div class="bar-group"><div class="bar-track"><span class="bar-fill" style="height: 52%;"></span></div><strong>Medical</strong></div>
+            <div class="bar-group"><div class="bar-track"><span class="bar-fill" style="height: 68%;"></span></div><strong>Food</strong></div>
+            <div class="bar-group"><div class="bar-track"><span class="bar-fill" style="height: 35%;"></span></div><strong>Shelter</strong></div>
+            <div class="bar-group"><div class="bar-track"><span class="bar-fill" style="height: 44%;"></span></div><strong>Water</strong></div>
+            <div class="bar-group"><div class="bar-track"><span class="bar-fill" style="height: 22%;"></span></div><strong>Clothing</strong></div>
+            <div class="bar-group"><div class="bar-track"><span class="bar-fill" style="height: 18%;"></span></div><strong>Rescue</strong></div>
+            <div class="bar-group"><div class="bar-track"><span class="bar-fill" style="height: 8%;"></span></div><strong>Transport</strong></div>
+          </div>
+        </article>
+
+        <article class="panel-card analytics-card">
+          <div class="card-topline">
+            <div>
+              <p class="card-label">Capacity</p>
+              <h3>Resource pressure view</h3>
+            </div>
+          </div>
+          <div id="capacityList" class="capacity-list"></div>
+        </article>
+      </div>
+
+      <div class="lower-grid">
+        <article class="panel-card">
+          <div class="card-topline">
+            <div>
+              <p class="card-label">District Heatmap</p>
+              <h3>Incident density and urgency leaderboard</h3>
+            </div>
+          </div>
+          <div id="heatmapBoard" class="heatmap-board"></div>
+        </article>
+
+        <article class="panel-card">
+          <div class="card-topline">
+            <div>
+              <p class="card-label">Escalation Matrix</p>
+              <h3>Response timing by severity</h3>
+            </div>
+          </div>
+          <div id="escalationBoard" class="matrix-board"></div>
+        </article>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+<script src="theme.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

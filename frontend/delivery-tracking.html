@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rescue Nexus Delivery Tracking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="delivery-tracking">
+<div class="dashboard-shell">
+  <aside class="ops-sidebar">
+    <div class="sidebar-brand"><span class="sidebar-logo">◉</span><div><strong>RescueLink</strong><small>Disaster Relief</small></div></div>
+    <p class="sidebar-label">Operations</p>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link" href="dashboard.html"><span>▣</span><span>Dashboard</span></a>
+      <a class="sidebar-link" href="task-board.html"><span>☰</span><span>Task Board</span></a>
+      <a class="sidebar-link" href="disaster-map.html"><span>⌖</span><span>Disaster Map</span></a>
+      <a class="sidebar-link active" href="delivery-tracking.html"><span>▤</span><span>Delivery Tracking</span></a>
+      <a class="sidebar-link" href="analytics.html"><span>◫</span><span>Analytics</span></a>
+      <a class="sidebar-link notification-link" href="notifications.html"><span>◌</span><span>Notifications</span><i id="navNotificationCount">5</i></a>
+      <a class="sidebar-link" href="admin-users.html"><span>⚙</span><span>Admin Users</span></a>
+      <a class="sidebar-link" href="profile.html"><span>◎</span><span>Profile & Settings</span></a>
+    </nav>
+  </aside>
+
+  <div class="dashboard-content">
+    <header class="topbar dashboard-topbar">
+      <div>
+        <p class="eyebrow">Logistics Monitor</p>
+        <h1 class="dashboard-title">Delivery tracking</h1>
+        <p id="pageSubtitle" class="dashboard-subtitle">Truck movement, ETA, and supply convoy visibility.</p>
+      </div>
+      <div class="topbar-actions">
+        <span id="currentUser" class="user-chip"></span>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode"><span class="theme-toggle-track"><span class="theme-icon">☀</span><span class="theme-label">Light</span></span></button>
+        <button id="logoutButton" class="button secondary button-small" type="button">Logout</button>
+      </div>
+    </header>
+
+    <div id="demoBanner" class="demo-banner"></div>
+
+    <main class="dashboard-main">
+      <section class="metric-grid viva-metrics">
+        <article class="metric-card"><span>Convoys moving</span><strong id="metricInTransit">38</strong><small>Live on route</small></article>
+        <article class="metric-card"><span>Open incidents</span><strong id="metricOpenIncidents">14</strong><small>Related logistics demand</small></article>
+        <article class="metric-card"><span>Urgent alerts</span><strong id="heroUrgentValue">4</strong><small>Need reroutes or approvals</small></article>
+        <article class="metric-card"><span>Utilization</span><strong id="metricUtilization">84%</strong><small>Fleet and warehousing</small></article>
+      </section>
+
+      <article class="panel-card">
+        <div class="card-topline">
+          <div>
+            <p class="card-label">Live Relief Orders</p>
+            <h3>Claimed, moving, delivered, and confirmed requests</h3>
+          </div>
+          <span id="deliveryResultsCount" class="badge transit">Realtime</span>
+        </div>
+
+        <div class="quick-actions-grid compact-actions">
+          <button class="button primary" type="button" data-action="export-csv" data-export="deliveries">Export CSV</button>
+          <button class="button secondary" type="button" data-action="export-pdf" data-export="deliveries">Print PDF</button>
+        </div>
+
+        <div class="filter-row">
+          <input id="deliverySearch" type="search" placeholder="Search order, NGO, city, or category">
+          <select id="deliveryStatusFilter">
+            <option value="all">All statuses</option>
+            <option value="Claimed">Claimed</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Delivered">Delivered</option>
+          </select>
+        </div>
+
+        <div id="deliveryBoard" class="delivery-board"></div>
+      </article>
+    </main>
+  </div>
+</div>
+
+<div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+<script src="theme.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

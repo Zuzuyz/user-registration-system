@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rescue Nexus Disaster Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="disaster-map">
+<div class="dashboard-shell">
+  <aside class="ops-sidebar">
+    <div class="sidebar-brand"><span class="sidebar-logo">◉</span><div><strong>RescueLink</strong><small>Disaster Relief</small></div></div>
+    <p class="sidebar-label">Operations</p>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link" href="dashboard.html"><span>▣</span><span>Dashboard</span></a>
+      <a class="sidebar-link" href="task-board.html"><span>☰</span><span>Task Board</span></a>
+      <a class="sidebar-link active" href="disaster-map.html"><span>⌖</span><span>Disaster Map</span></a>
+      <a class="sidebar-link" href="delivery-tracking.html"><span>▤</span><span>Delivery Tracking</span></a>
+      <a class="sidebar-link" href="analytics.html"><span>◫</span><span>Analytics</span></a>
+      <a class="sidebar-link notification-link" href="notifications.html"><span>◌</span><span>Notifications</span><i id="navNotificationCount">5</i></a>
+      <a class="sidebar-link" href="admin-users.html"><span>⚙</span><span>Admin Users</span></a>
+      <a class="sidebar-link" href="profile.html"><span>◎</span><span>Profile & Settings</span></a>
+    </nav>
+  </aside>
+
+  <div class="dashboard-content">
+    <header class="topbar dashboard-topbar">
+      <div>
+        <p class="eyebrow">Geospatial View</p>
+        <h1 class="dashboard-title">Disaster map</h1>
+        <p id="pageSubtitle" class="dashboard-subtitle">India-only incident hotspots and relief corridors.</p>
+      </div>
+      <div class="topbar-actions">
+        <span id="currentUser" class="user-chip"></span>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode"><span class="theme-toggle-track"><span class="theme-icon">☀</span><span class="theme-label">Light</span></span></button>
+        <button id="logoutButton" class="button secondary button-small" type="button">Logout</button>
+      </div>
+    </header>
+
+    <div id="demoBanner" class="demo-banner"></div>
+
+    <main class="dashboard-main">
+      <div class="command-layout">
+        <div class="command-column">
+          <article class="panel-card map-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Incident Surface</p>
+                <h3>Active field hubs, blocked roads, shelters, and convoy lanes</h3>
+              </div>
+              <span class="india-badge">India Only</span>
+            </div>
+            <div class="map-frame">
+              <svg viewBox="0 0 520 640" class="india-map" aria-label="India operations map">
+                <path class="india-shape" d="M286 42l52 48 3 49 45 42-5 52 26 34-13 36 20 50-8 72-44 42-15 47-49 33-46 4-39-31-12-39-31-20-14-54-39-31-28-71 18-41-27-43 27-36 57-18 15-41 44-6 18-39 45 1z"></path>
+                <g class="route completed"><path d="M171 204 C219 240, 248 267, 283 305"></path></g>
+                <g class="route active"><path d="M283 305 C315 337, 331 381, 350 446"></path></g>
+                <g class="route active"><path d="M244 182 C292 171, 332 167, 379 144"></path></g>
+                <g class="route completed"><path d="M150 298 C191 318, 236 352, 272 389"></path></g>
+                <g id="mapPins"></g>
+                <g class="truck-marker truck-one"><circle cx="315" cy="337" r="14"></circle><text x="307" y="342">🚚</text></g>
+                <g class="truck-marker truck-two"><circle cx="301" cy="171" r="14"></circle><text x="293" y="176">🚚</text></g>
+              </svg>
+              <div class="map-legend">
+                <span><i class="legend-dot active-dot"></i> Active route</span>
+                <span><i class="legend-dot done-dot"></i> Completed stretch</span>
+                <span><i class="legend-dot city-dot"></i> Hubs, shelters, blocked roads</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="command-column narrow-column">
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Weather Overlay</p>
+                <h3>District rain, wind, and flood risk</h3>
+              </div>
+              <span id="weatherRiskSummary" class="badge transit">Weather loading</span>
+            </div>
+            <div id="weatherBoard" class="weather-board"></div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Shelter Occupancy</p>
+                <h3>Capacity pressure across nearby hubs</h3>
+              </div>
+            </div>
+            <div id="shelterBoard" class="shelter-board"></div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Map Signals</p>
+                <h3>Prioritized field notes</h3>
+              </div>
+            </div>
+            <div id="mapSignals" class="signal-stack"></div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Timeline</p>
+                <h3>Latest route and incident updates</h3>
+              </div>
+            </div>
+            <div id="timelineList" class="timeline-list"></div>
+          </article>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+<script src="theme.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

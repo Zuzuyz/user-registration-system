@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rescue Nexus Task Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="task-board">
+<div class="dashboard-shell">
+  <aside class="ops-sidebar">
+    <div class="sidebar-brand">
+      <span class="sidebar-logo">◉</span>
+      <div>
+        <strong>RescueLink</strong>
+        <small>Disaster Relief</small>
+      </div>
+    </div>
+    <p class="sidebar-label">Operations</p>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link" href="dashboard.html"><span>▣</span><span>Dashboard</span></a>
+      <a class="sidebar-link active" href="task-board.html"><span>☰</span><span>Task Board</span></a>
+      <a class="sidebar-link" href="disaster-map.html"><span>⌖</span><span>Disaster Map</span></a>
+      <a class="sidebar-link" href="delivery-tracking.html"><span>▤</span><span>Delivery Tracking</span></a>
+      <a class="sidebar-link" href="analytics.html"><span>◫</span><span>Analytics</span></a>
+      <a class="sidebar-link notification-link" href="notifications.html"><span>◌</span><span>Notifications</span><i id="navNotificationCount">5</i></a>
+      <a class="sidebar-link" href="admin-users.html"><span>⚙</span><span>Admin Users</span></a>
+      <a class="sidebar-link" href="profile.html"><span>◎</span><span>Profile & Settings</span></a>
+    </nav>
+  </aside>
+
+  <div class="dashboard-content">
+    <header class="topbar dashboard-topbar">
+      <div>
+        <p class="eyebrow">Operations Workspace</p>
+        <h1 class="dashboard-title">Task board</h1>
+        <p id="pageSubtitle" class="dashboard-subtitle">Mission queues, owners, and progress tracking.</p>
+      </div>
+      <div class="topbar-actions">
+        <span id="currentUser" class="user-chip"></span>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode"><span class="theme-toggle-track"><span class="theme-icon">☀</span><span class="theme-label">Light</span></span></button>
+        <button id="logoutButton" class="button secondary button-small" type="button">Logout</button>
+      </div>
+    </header>
+
+    <div id="demoBanner" class="demo-banner"></div>
+
+    <main class="dashboard-main">
+      <section class="metric-grid viva-metrics">
+        <article class="metric-card metric-emphasis"><span>Open missions</span><strong id="metricOpenIncidents">14</strong><small>Needing active coordination</small></article>
+        <article class="metric-card"><span>Critical incidents</span><strong id="heroUrgentValue">4</strong><small>Need fast action</small></article>
+        <article class="metric-card"><span>Resolved today</span><strong id="metricResolvedToday">31</strong><small>Closed in this session</small></article>
+        <article class="metric-card"><span>Resource utilization</span><strong id="metricUtilization">88%</strong><small>Role-aware workload</small></article>
+      </section>
+
+      <div class="command-layout">
+        <div class="command-column">
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Incident Queue</p>
+                <h3>Search, filter, advance, and close work</h3>
+              </div>
+              <span id="taskResultsCount" class="badge transit">Live results</span>
+            </div>
+
+            <div class="quick-actions-grid compact-actions">
+              <button class="button primary" type="button" data-action="export-csv" data-export="incidents">Export CSV</button>
+              <button class="button secondary" type="button" data-action="export-pdf" data-export="task-board">Print PDF</button>
+            </div>
+
+            <div class="filter-row">
+              <input id="taskSearch" type="search" placeholder="Search title, team, category, or location">
+              <select id="taskSeverityFilter">
+                <option value="all">All severities</option>
+                <option value="critical">Critical</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+              </select>
+              <select id="taskStatusFilter">
+                <option value="all">All statuses</option>
+                <option value="Open">Open</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Awaiting Approval">Awaiting Approval</option>
+                <option value="Resolved">Resolved</option>
+              </select>
+            </div>
+
+            <div id="taskBoardList" class="task-board"></div>
+          </article>
+        </div>
+
+        <div class="command-column narrow-column">
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Create Incident</p>
+                <h3>Intake reports, evidence, and assignments</h3>
+              </div>
+            </div>
+
+            <form id="incidentForm" class="stack-form">
+              <label><span>Incident title</span><input name="title" type="text" placeholder="Bridge collapse evacuation" required></label>
+              <label><span>Location</span><input name="location" type="text" placeholder="Bihar, Patna" required></label>
+              <label><span>State</span><input name="state" type="text" placeholder="Bihar" required></label>
+              <label><span>Summary</span><input name="summary" type="text" placeholder="What happened and what is needed?" required></label>
+              <label><span>Category</span><select name="category" required><option value="Rescue">Rescue</option><option value="Food">Food</option><option value="Shelter">Shelter</option><option value="Medical">Medical</option><option value="Water">Water</option></select></label>
+              <label><span>Severity</span><select name="severity" required><option value="critical">Critical</option><option value="high">High</option><option value="medium">Medium</option></select></label>
+              <label><span>Owner desk</span><input name="owner" type="text" placeholder="Central Rescue Desk" required></label>
+              <label><span>Assigned role</span><select name="assignedRole" required><option value="rescue">Rescue</option><option value="ngo">NGO</option><option value="admin">Admin</option></select></label>
+              <label><span>Assigned team</span><input name="assignedTeam" type="text" placeholder="North Relief Hub" required></label>
+              <label><span>Blocked route</span><input name="blockedRoute" type="text" placeholder="Patna ring road sector 3" required></label>
+              <label><span>Hub city</span><input name="hub" type="text" placeholder="Patna" required></label>
+              <label><span>Estimated arrival minutes</span><input name="eta" type="number" min="5" max="240" value="30" required></label>
+              <label><span>Shelter seats needed</span><input name="shelterNeed" type="number" min="0" value="20" required></label>
+              <label>
+                <span>Upload photo or report</span>
+                <input id="incidentEvidence" name="evidence" type="file" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.csv">
+                <small id="uploadPreviewName" class="helper-note helper-inline">No evidence attached yet</small>
+              </label>
+              <button class="button primary wide" type="submit">Create incident</button>
+            </form>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Timeline</p>
+                <h3>Upcoming operational handoffs</h3>
+              </div>
+            </div>
+            <div id="timelineList" class="timeline-list"></div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Report Attachments</p>
+                <h3>Photos, PDFs, and evidence gallery</h3>
+              </div>
+            </div>
+            <div id="attachmentGallery" class="attachment-gallery"></div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Shift Handover</p>
+                <h3>Notes for the next field operator</h3>
+              </div>
+            </div>
+            <form id="handoverForm" class="stack-form compact-form">
+              <label><span>Handover note</span><input id="handoverInput" name="handoverNote" type="text" placeholder="Summarize blockers, approvals, or next steps" required></label>
+              <button class="button secondary wide" type="submit">Save note</button>
+            </form>
+            <div id="handoverList" class="timeline-list"></div>
+          </article>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+<script src="theme.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

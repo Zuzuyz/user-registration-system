@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rescue Nexus Profile and Settings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="profile">
+<div class="dashboard-shell">
+  <aside class="ops-sidebar">
+    <div class="sidebar-brand"><span class="sidebar-logo">◉</span><div><strong>RescueLink</strong><small>Disaster Relief</small></div></div>
+    <p class="sidebar-label">Operations</p>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link" href="dashboard.html"><span>▣</span><span>Dashboard</span></a>
+      <a class="sidebar-link" href="task-board.html"><span>☰</span><span>Task Board</span></a>
+      <a class="sidebar-link" href="disaster-map.html"><span>⌖</span><span>Disaster Map</span></a>
+      <a class="sidebar-link" href="delivery-tracking.html"><span>▤</span><span>Delivery Tracking</span></a>
+      <a class="sidebar-link" href="analytics.html"><span>◫</span><span>Analytics</span></a>
+      <a class="sidebar-link notification-link" href="notifications.html"><span>◌</span><span>Notifications</span><i id="navNotificationCount">5</i></a>
+      <a class="sidebar-link" href="admin-users.html"><span>⚙</span><span>Admin Users</span></a>
+      <a class="sidebar-link active" href="profile.html"><span>◎</span><span>Profile & Settings</span></a>
+    </nav>
+  </aside>
+
+  <div class="dashboard-content">
+    <header class="topbar dashboard-topbar">
+      <div>
+        <p class="eyebrow">Account Console</p>
+        <h1 class="dashboard-title">Profile & settings</h1>
+        <p id="pageSubtitle" class="dashboard-subtitle">Contact details, region assignment, password hint, and notification preferences.</p>
+      </div>
+      <div class="topbar-actions">
+        <span id="currentUser" class="user-chip"></span>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode"><span class="theme-toggle-track"><span class="theme-icon">☀</span><span class="theme-label">Light</span></span></button>
+        <button id="logoutButton" class="button secondary button-small" type="button">Logout</button>
+      </div>
+    </header>
+
+    <div id="demoBanner" class="demo-banner"></div>
+
+    <main class="dashboard-main">
+      <div class="command-layout">
+        <div class="command-column">
+          <article class="panel-card profile-summary-card">
+            <div class="profile-summary-top">
+              <div class="profile-avatar">RN</div>
+              <div>
+                <h3 id="profileName">Responder</h3>
+                <p id="profileEmail" class="dashboard-subtitle">name@example.com</p>
+              </div>
+            </div>
+
+            <div class="profile-facts">
+              <div><span>Role</span><strong id="profileRole">rescue</strong></div>
+              <div><span>Region</span><strong id="profileRegion">National Control</strong></div>
+              <div><span>Team</span><strong id="profileTeam">Command Team</strong></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="command-column">
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Account Settings</p>
+                <h3>Update contact and response preferences</h3>
+              </div>
+            </div>
+
+            <form id="profileForm" class="stack-form">
+              <label><span>Full name</span><input name="fullName" type="text" required></label>
+              <label><span>Phone number</span><input name="phone" type="tel" required></label>
+              <label><span>Assigned region</span><input name="region" type="text" required></label>
+              <label><span>Team or desk</span><input name="team" type="text" required></label>
+              <label><span>Password hint</span><input name="passwordHint" type="text" required></label>
+              <label>
+                <span>Preferred language</span>
+                <select name="language" id="languageSelect">
+                  <option value="en">English</option>
+                  <option value="hi">Hindi</option>
+                </select>
+              </label>
+              <label class="checkbox-row">
+                <input name="notificationsEnabled" type="checkbox">
+                <span>Enable operational notifications and approvals</span>
+              </label>
+              <button class="button primary wide" type="submit">Save settings</button>
+            </form>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Recent Sessions</p>
+                <h3>Login and command activity</h3>
+              </div>
+            </div>
+            <div id="sessionActivityList" class="timeline-list"></div>
+          </article>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+<script src="theme.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

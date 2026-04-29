@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rescue Nexus Notifications</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="notifications">
+<div class="dashboard-shell">
+  <aside class="ops-sidebar">
+    <div class="sidebar-brand"><span class="sidebar-logo">◉</span><div><strong>RescueLink</strong><small>Disaster Relief</small></div></div>
+    <p class="sidebar-label">Operations</p>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link" href="dashboard.html"><span>▣</span><span>Dashboard</span></a>
+      <a class="sidebar-link" href="task-board.html"><span>☰</span><span>Task Board</span></a>
+      <a class="sidebar-link" href="disaster-map.html"><span>⌖</span><span>Disaster Map</span></a>
+      <a class="sidebar-link" href="delivery-tracking.html"><span>▤</span><span>Delivery Tracking</span></a>
+      <a class="sidebar-link" href="analytics.html"><span>◫</span><span>Analytics</span></a>
+      <a class="sidebar-link notification-link active" href="notifications.html"><span>◌</span><span>Notifications</span><i id="navNotificationCount">5</i></a>
+      <a class="sidebar-link" href="admin-users.html"><span>⚙</span><span>Admin Users</span></a>
+      <a class="sidebar-link" href="profile.html"><span>◎</span><span>Profile & Settings</span></a>
+    </nav>
+  </aside>
+
+  <div class="dashboard-content">
+    <header class="topbar dashboard-topbar">
+      <div>
+        <p class="eyebrow">Alert Center</p>
+        <h1 class="dashboard-title">Notifications</h1>
+        <p id="pageSubtitle" class="dashboard-subtitle">Approvals, alerts, and field communications in one view.</p>
+      </div>
+      <div class="topbar-actions">
+        <span id="currentUser" class="user-chip"></span>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode"><span class="theme-toggle-track"><span class="theme-icon">☀</span><span class="theme-label">Light</span></span></button>
+        <button id="logoutButton" class="button secondary button-small" type="button">Logout</button>
+      </div>
+    </header>
+
+    <div id="demoBanner" class="demo-banner"></div>
+
+    <main class="dashboard-main">
+      <div class="command-layout">
+        <div class="command-column">
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Command Alerts</p>
+                <h3>Unread activity stream</h3>
+              </div>
+              <span id="notificationCounter" class="badge alert-badge">5 New</span>
+            </div>
+
+            <div class="filter-row">
+              <input id="notificationSearch" type="search" placeholder="Search alerts and approvals">
+              <select id="notificationLevelFilter">
+                <option value="all">All levels</option>
+                <option value="critical">Critical</option>
+                <option value="urgent">Urgent</option>
+                <option value="update">Update</option>
+                <option value="dispatch">Dispatch</option>
+                <option value="approval">Approval</option>
+              </select>
+            </div>
+
+            <div id="notificationList" class="notification-list"></div>
+          </article>
+        </div>
+
+        <div class="command-column narrow-column">
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Audit Trail</p>
+                <h3>Who changed what and when</h3>
+              </div>
+            </div>
+            <div id="auditList" class="timeline-list"></div>
+          </article>
+
+          <article class="panel-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Escalation Matrix</p>
+                <h3>Who gets notified and in how long</h3>
+              </div>
+            </div>
+            <div id="escalationBoard" class="matrix-board"></div>
+          </article>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+<script src="theme.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>
